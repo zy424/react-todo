@@ -1,14 +1,238 @@
-import React from 'react'
-import Footer from './Footer'
-import AddTodo from '../containers/AddTodo'
-import VisibleTodoList from '../containers/VisibleTodoList'
+import React from 'react';
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {NavLink, Route, Switch, withRouter} from 'react-router-dom'
+import classNames from 'classnames'
+import {createMuiTheme, MuiThemeProvider, withStyles} from '@material-ui/core/styles';
+import {
+  AppBar,
+  Badge,
+  CssBaseline,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography
+} from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu'
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import HomeIcon from '@material-ui/icons/Home'
+import AssignmentIcon from '@material-ui/icons/Assignment'
+import teal from "@material-ui/core/colors/teal"
+import pink from "@material-ui/core/colors/pink"
 
-const App = () => (
-  <div>
-    <AddTodo />
-    <VisibleTodoList />
-    <Footer />
-  </div>
-)
+import HomePage from "../pages/HomePage"
+import TodoPage from "../pages/TodoPage"
 
-export default App
+
+const drawerWidth = 240
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+  },
+  toolbarIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginLeft: 12,
+    marginRight: 36,
+  },
+  menuButtonHidden: {
+    display: 'none',
+  },
+  title: {
+    flexGrow: 1,
+  },
+  drawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerPaperClose: {
+    overflowX: 'hidden',
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    width: theme.spacing.unit * 7,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing.unit * 9,
+    },
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+    height: '100vh',
+    overflow: 'auto',
+  },
+  chartContainer: {
+    marginLeft: -22,
+  },
+  tableContainer: {
+    height: 320,
+  },
+  h5: {
+    marginBottom: theme.spacing.unit * 2,
+  },
+})
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+  palette: {
+    primary: teal,
+    secondary: {
+      light: pink[400],
+      main: pink[500],
+      dark: pink[600],
+      contrastText: '#fff',
+    },
+  },
+})
+
+class App extends React.Component {
+  state = {
+    open: true,
+  };
+
+  handleDrawerOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleDrawerClose = () => {
+    this.setState({open: false});
+  };
+
+  render() {
+    const {classes} = this.props;
+
+    return (
+      <MuiThemeProvider theme={theme}>
+        <div className={classes.root}>
+          <CssBaseline/>
+          <AppBar
+            position="absolute"
+            className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
+          >
+            <Toolbar disableGutters={!this.state.open} className={classes.toolbar}>
+              <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={this.handleDrawerOpen}
+                className={classNames(
+                  classes.menuButton,
+                  this.state.open && classes.menuButtonHidden,
+                )}
+              >
+                <MenuIcon/>
+              </IconButton>
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                Create-Todo-App with React, Redux and Material UI
+              </Typography>
+              <IconButton color="inherit">
+                <Badge badgeContent={this.props.todos.filter(t => !t.completed).length} color="secondary">
+                  <NotificationsIcon/>
+                </Badge>
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            variant="permanent"
+            classes={{
+              paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+            }}
+            open={this.state.open}
+          >
+            <div className={classes.toolbarIcon}>
+              <IconButton onClick={this.handleDrawerClose} color='primary'>
+                <ChevronLeftIcon/>
+              </IconButton>
+            </div>
+            <Divider/>
+            <List>
+              <NavLink to='/'>
+                <ListItem button>
+                  <ListItemIcon>
+                    <HomeIcon color='primary'/>
+                  </ListItemIcon>
+                  <ListItemText primary="Home"/>
+                </ListItem>
+              </NavLink>
+              <NavLink to='/todo'>
+                <ListItem button>
+                  <ListItemIcon>
+                    <AssignmentIcon color='primary'/>
+                  </ListItemIcon>
+                  <ListItemText primary="Todos"/>
+                </ListItem>
+              </NavLink>
+            </List>
+            <Divider/>
+          </Drawer>
+
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer}/>
+            <div>
+              <Switch>
+                <Route exact path='/' component={HomePage}/>
+                <Route exact path='/todo' component={TodoPage}/>
+                <Route render={(props) => {
+                  return (<h3>Page Not Found</h3>)
+                }}/>
+              </Switch>
+            </div>
+          </main>
+        </div>
+      </MuiThemeProvider>
+    )
+  }
+}
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+  todos: PropTypes.array.isRequired,
+}
+
+const mapStateToProps = state => ({
+  todos: state.todos
+})
+
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(App)))

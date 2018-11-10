@@ -1,14 +1,45 @@
-import React from 'react'
-import FilterLink from '../containers/FilterLink'
-import { VisibilityFilters } from '../actions'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {BottomNavigation, BottomNavigationAction, Icon} from '@material-ui/core'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import RestoreIcon from '@material-ui/icons/Restore'
 
-const Footer = () => (
-  <div>
-    <span>Show: </span>
-    <FilterLink filter={VisibilityFilters.SHOW_ALL}>All</FilterLink>
-    <FilterLink filter={VisibilityFilters.SHOW_ACTIVE}>Active</FilterLink>
-    <FilterLink filter={VisibilityFilters.SHOW_COMPLETED}>Completed</FilterLink>
-  </div>
-)
+import {VisibilityFilters} from '../actions'
+
+
+class Footer extends Component {
+  render() {
+    return (
+      <BottomNavigation
+        value={this.props.filterValue}
+        onChange={(event, value) => this.props.onClick(value)}
+      >
+        <BottomNavigationAction
+          showLabel
+          value={VisibilityFilters.SHOW_ALL}
+          icon={<RestoreIcon/>}
+          label='Show All'
+        />
+        <BottomNavigationAction
+          showLabel
+          value={VisibilityFilters.SHOW_ACTIVE}
+          icon={<FavoriteIcon/>}
+          label='Show Active'
+        />
+        <BottomNavigationAction
+          showLabel
+          value={VisibilityFilters.SHOW_COMPLETED}
+          icon={<Icon>folder</Icon>}
+          label='Show Completed'
+        />
+      </BottomNavigation>
+    )
+  }
+}
+
+Footer.propTypes = {
+  filterValue: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+}
 
 export default Footer
