@@ -13,6 +13,7 @@ The minimum requirements by this application are:
 ## Development Environment
 
 Make sure you have the Node.js V8 installed.<br>
+
 First ensure Webpack is installed globally.<br>
 
 `npm install -g create-react-app`
