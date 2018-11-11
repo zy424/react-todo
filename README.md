@@ -1,4 +1,7 @@
-# Todo List App built with React, React-router, Redux and Material-ui
+# Yi Todo List App 
+
+Todo list app built with React using Material-UI components, Redux to manage state, React-router for routing.
+
 
 ## Requiremets
 
