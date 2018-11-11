@@ -6,9 +6,9 @@ Todo list app built with React using Material-UI components, Redux to manage sta
 ## Requiremets
 
 The minimum requirements by this application are:
--[git](https://git-scm.com/downloads)
--[Node v8 & NPM](https://nodejs.org/en/)
--[Creat React App](https://github.com/facebook/create-react-app)
+- [git](https://git-scm.com/downloads)
+- [Node v8 & NPM](https://nodejs.org/en/)
+- [Creat React App](https://github.com/facebook/create-react-app)
 
 ## Development Environment
 
