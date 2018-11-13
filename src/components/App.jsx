@@ -10,6 +10,7 @@ import {
   CssBaseline,
   Divider,
   Drawer,
+  Hidden,
   IconButton,
   List,
   ListItem,
@@ -133,11 +134,11 @@ class App extends React.Component {
 
   handleDrawerClose = () => {
     this.setState({open: false});
-  };
+  }
+
 
   render() {
     const {classes} = this.props;
-
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
@@ -174,40 +175,83 @@ class App extends React.Component {
               </IconButton>
             </Toolbar>
           </AppBar>
-          <Drawer
-            variant="permanent"
-            classes={{
-              paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
-            }}
-            open={this.state.open}
-          >
-            <div className={classes.toolbarIcon}>
-              <IconButton onClick={this.handleDrawerClose} color='primary'>
-                <ChevronLeftIcon/>
-              </IconButton>
-            </div>
-            <Divider/>
-            <List>
-              <NavLink to='/'>
-                <ListItem button>
-                  <ListItemIcon>
-                    <HomeIcon color='primary'/>
-                  </ListItemIcon>
-                  <ListItemText primary="Home"/>
-                </ListItem>
-              </NavLink>
-              <NavLink to='/todo'>
-                <ListItem button>
-                  <ListItemIcon>
-                    <AssignmentIcon color='primary'/>
-                  </ListItemIcon>
-                  <ListItemText primary="Todos"/>
-                </ListItem>
-              </NavLink>
-            </List>
-            <Divider/>
-          </Drawer>
-
+          <Hidden mdUp>
+            <Drawer
+              variant="temporary"
+              open={this.state.open}
+              classes={{
+                paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+              }}
+              onClose={this.handleDrawerClose}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              <div className={classes.toolbarIcon}>
+                <IconButton onClick={this.handleDrawerClose} color='primary'>
+                  <ChevronLeftIcon/>
+                </IconButton>
+              </div>
+              <Divider/>
+              <List>
+                <NavLink to='/'>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <HomeIcon color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Home"/>
+                  </ListItem>
+                </NavLink>
+                <NavLink to='/todo'>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <AssignmentIcon color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Todos"/>
+                  </ListItem>
+                </NavLink>
+              </List>
+              <Divider/>
+            </Drawer>
+          </Hidden>
+          <Hidden smDown>
+            <Drawer
+              variant="permanent"
+              classes={{
+                paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose),
+              }}
+              open
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              <div className={classes.toolbarIcon}>
+                <IconButton onClick={this.handleDrawerClose} color='primary'>
+                  <ChevronLeftIcon/>
+                </IconButton>
+              </div>
+              <Divider/>
+              <List>
+                <NavLink to='/'>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <HomeIcon color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Home"/>
+                  </ListItem>
+                </NavLink>
+                <NavLink to='/todo'>
+                  <ListItem button>
+                    <ListItemIcon>
+                      <AssignmentIcon color='primary'/>
+                    </ListItemIcon>
+                    <ListItemText primary="Todos"/>
+                  </ListItem>
+                </NavLink>
+              </List>
+              <Divider/>
+            </Drawer>
+          </Hidden>
           <main className={classes.content}>
             <div className={classes.appBarSpacer}/>
             <div>
