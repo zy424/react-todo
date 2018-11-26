@@ -1,6 +1,12 @@
 import {ADD_TODO, DELETE_TODO, TOGGLE_TODO} from "../actions/ActionTypes";
 
-const todos = (state = [], action) => {
+const iniTodos =[
+    {text: 'washing clothes', completed:true},
+    {text: '5km running',completed:true},
+    {text: 'reading books'},
+    {text: 'learning React'},
+]
+const todos = (state = iniTodos, action) => {
   switch (action.type) {
     case ADD_TODO:
       return [

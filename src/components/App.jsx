@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink, Route, Switch, withRouter} from 'react-router-dom'
 import classNames from 'classnames'
-import {createMuiTheme, MuiThemeProvider, withStyles} from '@material-ui/core/styles';
+import {createMuiTheme, MuiThemeProvider, withStyles} from '@material-ui/core/styles'
 import {
   AppBar,
   Badge,
@@ -26,6 +26,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import teal from "@material-ui/core/colors/teal"
 import pink from "@material-ui/core/colors/pink"
+import {isWidthDown} from '@material-ui/core/withWidth';
 
 import HomePage from "../pages/HomePage"
 import TodoPage from "../pages/TodoPage"
@@ -123,6 +124,7 @@ const theme = createMuiTheme({
   },
 })
 
+
 class App extends React.Component {
   state = {
     open: true,
@@ -134,6 +136,10 @@ class App extends React.Component {
 
   handleDrawerClose = () => {
     this.setState({open: false});
+  }
+
+  isSmartphone = (width) => {
+    isWidthDown('xs', width)
   }
 
 
@@ -163,7 +169,7 @@ class App extends React.Component {
                 component="h1"
                 variant="h6"
                 color="inherit"
-                noWrap
+                noWrap={!this.isSmartphone}
                 className={classes.title}
               >
                 Create-Todo-App with React, Redux and Material UI

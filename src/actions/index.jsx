@@ -1,4 +1,4 @@
-import {ADD_TODO, DELETE_TODO, TOGGLE_TODO} from "./ActionTypes";
+import {ADD_TODO, DELETE_TODO, TOGGLE_TODO} from "./ActionTypes"
 
 let nextTodoId = 0
 export const addTodo = text => ({
