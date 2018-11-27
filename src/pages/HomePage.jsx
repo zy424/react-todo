@@ -33,7 +33,7 @@ class HomePage extends React.Component {
             </CardContent>
           </CardActionArea>
           <CardActions>
-            <NavLink to='/comment'>
+            <NavLink to='/todo'>
               <Button size="small" color="primary">
                 Get Started
               </Button>
